@@ -1,17 +1,20 @@
 package com.fuzzyDucks.fms;
 
-import org.bson.Document;
-
+import com.fuzzyDucks.fms.Auth.AuthService;
 import com.fuzzyDucks.fms.Database.MongoConnector;
-import com.fuzzyDucks.fms.Database.enums.MongoConf;
-import com.mongodb.client.MongoCollection;
+import com.fuzzyDucks.fms.User.UserSchema;
+import com.fuzzyDucks.fms.User.enums.UserRole;
 
 public class App {
     private static MongoConnector db = MongoConnector.getInstance();
 
     public static void main(String[] args) {
-        // temporary code for testing
-        MongoCollection<Document> files = db.getDatabase().getCollection(MongoConf.FILES_COLLECTION.getValue());
-        System.out.println(files.countDocuments());
+        try {
+            String token = AuthService.login("muthana1", "12345");
+            System.out.println(token);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
+
 }

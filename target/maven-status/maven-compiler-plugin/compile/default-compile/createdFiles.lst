@@ -1,1 +1,10 @@
+com\fuzzyDucks\fms\Auth\JWT\JWTService.class
+com\fuzzyDucks\fms\User\UserSchema.class
+com\fuzzyDucks\fms\Auth\AuthService.class
 com\fuzzyDucks\fms\App.class
+com\fuzzyDucks\fms\Auth\JWT\JWTConfig.class
+com\fuzzyDucks\fms\Database\MongoConnector.class
+com\fuzzyDucks\fms\User\enums\UserRole.class
+com\fuzzyDucks\fms\User\UserUtils.class
+com\fuzzyDucks\fms\Database\enums\MongoConf.class
+com\fuzzyDucks\fms\User\UserService.class

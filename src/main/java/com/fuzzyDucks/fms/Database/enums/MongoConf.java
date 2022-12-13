@@ -3,7 +3,7 @@ package com.fuzzyDucks.fms.Database.enums;
 public enum MongoConf {
     URI("mongodb+srv://root:Store1234@store.9wmdkug.mongodb.net/?retryWrites=true&w=majority"),
     DB("fms"),
-    USER_COLLECTION("users"),
+    USERS_COLLECTION("users"),
     FILES_COLLECTION("files");
 
     private String value;
