@@ -2,7 +2,6 @@ package com.fuzzyDucks.fms.Auth.JWT;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
-import com.fuzzyDucks.fms.User.UserSchema;
 import java.util.Date;
 
 import org.bson.Document;
@@ -28,7 +27,7 @@ public class JWTService {
                     .withNotBefore(new Date(System.currentTimeMillis()))
                     .sign(algorithm);
         } catch (Exception e) {
-            e.printStackTrace();
+            System.err.println(e.getMessage());
         }
     }
 

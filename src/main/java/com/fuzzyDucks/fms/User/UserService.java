@@ -15,6 +15,8 @@ public class UserService {
     }
 
     public static void addUser(UserSchema user) {
+        if (users.find(new Document("username", user.getUsername())).first() != null)
+            throw new IllegalArgumentException("User already exists");
         users.insertOne(user.toDocument());
     }
 
