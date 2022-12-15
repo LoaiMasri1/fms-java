@@ -2,6 +2,7 @@ package com.fuzzyDucks.fms.classification;
 
 import com.fuzzyDucks.fms.Database.MongoConnector;
 import com.fuzzyDucks.fms.Database.enums.MongoConf;
+import com.fuzzyDucks.fms.classification.enums.SortType;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Filters;
@@ -11,62 +12,37 @@ import org.bson.Document;
 import java.util.Date;
 
 public class FileService {
-    private static MongoCollection<Document> files = MongoConnector.getInstance().getDatabase()
+    final private static MongoCollection<Document> files = MongoConnector.getInstance().getDatabase()
             .getCollection(MongoConf.FILES_COLLECTION.getValue());
-    private static FindIterable<Document> docs;
+    //private static FindIterable<Document> docs;
 
     public static FindIterable<Document> getFiles() {
-        docs = files.find();
-        CheckFile.isEmpty(docs);
-        return docs;
+        FindIterable<Document> tmp=files.find();
+        FileUtils.isEmpty(tmp);
+        return tmp;
     }
 
-    public static FindIterable<Document> getFilesBySize(String size) {//throws Exception
-        docs = files.find(new Document("size", size))
-                .filter(Filters.gte("size",size));
-        CheckFile.isEmpty(docs);
-        return docs;
+    public static FindIterable<Document> getBySizeGte(double size) {
+        return files.find(new Document("size", size)).filter(Filters.gte("size",size));
     }
 
-    public static FindIterable<Document> getFilesByName(String name) {
-        docs = files.find(new Document("name", name));
-        CheckFile.isEmpty(docs);
-        return docs;
-    }
-    public static FindIterable<Document> getFilesByType(String type) {
-        docs = files.find(new Document("type", type));
-        CheckFile.isEmpty(docs);
-        return docs;
-    }
-    public static  FindIterable<Document> getFileByPath(String path) {
-        docs = files.find(new Document("path",path));
-        CheckFile.isEmpty(docs);
-        return docs;
+    public static FindIterable<Document> getBySizeLte(double size) {//throws Exception
+        return files.find(new Document("size", size)).filter(Filters.lte("size",size));
     }
 
-    public static  FindIterable<Document> getFileSortedBySize() {
-        docs = FileService.getFiles();
-        docs = docs.sort(Sorts.ascending("size"));
-        return docs;
-    }
-    public static  FindIterable<Document> getFileSortedByName() {
-        docs = FileService.getFiles();
-        docs = docs.sort(Sorts.ascending("name"));
-        CheckFile.isEmpty(docs);
-        return docs;
-    }
-    public static  FindIterable<Document> getFileSortedByDate() {
-        docs = FileService.getFiles();
-        docs = docs.sort(Sorts.ascending("crtDate"));
-        return docs;
-    }
+    public static FindIterable<Document> getEqualValue(String nameField, String value) {
+        return files.find(new Document(nameField, value));
 
-    public static  FindIterable<Document> getFilesBetweenTwoDate(Date startDate,Date endDate) {
-        docs = files.find()
-                .filter(Filters.gte("crtDate",startDate))
+    }
+    public static  FindIterable<Document> getSortedBy(String nameField, SortType type) {
+        if(type.isAscending()){
+            return getFiles().sort(Sorts.ascending(nameField));
+        }
+        return getFiles().sort(Sorts.descending(nameField));
+    }
+    public static  FindIterable<Document> getBetweenTwoDate(Date startDate,Date endDate) {
+        return files.find().filter(Filters.gte("crtDate",startDate))
                 .filter(Filters.lte("crtDate",endDate));
-        CheckFile.isEmpty(docs);
-        return docs;
     }
 
 
