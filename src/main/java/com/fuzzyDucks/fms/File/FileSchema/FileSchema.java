@@ -45,6 +45,15 @@ public class FileSchema {
 
         return document;
     }
+    
+    public  Document UpdateDocument(int newVersion, String newPath,LocalDateTime newDate) {
+        Document document = new Document();
+        document.append("version",newVersion);
+        document.append("updDate",newDate);
+        document.append("path",newPath);
+
+        return document;
+    }
 
     private String encodeName(String name) {
         return FileUtils.encodeValue(
