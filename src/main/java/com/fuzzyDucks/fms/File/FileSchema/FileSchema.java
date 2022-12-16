@@ -18,6 +18,7 @@ public class FileSchema {
     private double size;
     private Date crtDate;
     private Date updDate;
+    private int version;
 
     public FileSchema(File file) throws IOException {
         String fileName = file.getName();
@@ -28,6 +29,7 @@ public class FileSchema {
         this.size = (double) (file.length() * BYTE_TO_BITS) / BITS_TO_KILOBITS; // In kilobits
         this.crtDate = new Date();
         this.updDate = new Date();
+        this.version=0;
         FileService.importFile(this, file, newFile);
     }
 
@@ -39,6 +41,8 @@ public class FileSchema {
         document.append("size", this.size);
         document.append("crtDate", this.crtDate);
         document.append("updDate", this.updDate);
+        document.append("version", this.version);
+
         return document;
     }
 
