@@ -57,7 +57,6 @@ public class FileSchemaService {
 
     public static FindIterable<Document> getEqualValue(String nameField, String value) {
         return files.find(new Document(nameField, value));
-
     }
 
     public static FindIterable<Document> getSortedBy(String nameField, SortType type) {
