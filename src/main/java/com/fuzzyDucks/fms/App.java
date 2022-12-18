@@ -1,9 +1,5 @@
 package com.fuzzyDucks.fms;
 
-import com.fuzzyDucks.fms.File.FileSchema.FileSchema;
-import com.fuzzyDucks.fms.File.FileService;
-
-import java.io.File;
 
 public class App {
 
