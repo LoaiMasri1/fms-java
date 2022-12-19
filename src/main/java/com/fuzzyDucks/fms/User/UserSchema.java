@@ -2,6 +2,7 @@ package com.fuzzyDucks.fms.User;
 
 import java.util.Date;
 
+import com.fuzzyDucks.fms.User.enums.UserFieldName;
 import org.bson.Document;
 
 import com.fuzzyDucks.fms.User.enums.UserRole;
@@ -26,12 +27,12 @@ public class UserSchema {
 
     public Document toDocument() {
         Document doc = new Document();
-        doc.append("username", username);
-        doc.append("password", password);
-        doc.append("email", email);
-        doc.append("name", name);
-        doc.append("role", role.getValue());
-        doc.append("crtDate", crtDate);
+        doc.append(UserFieldName.USER_NAME.getValue(), username);
+        doc.append(UserFieldName.PASSWORD.getValue(), password);
+        doc.append(UserFieldName.EMAIL.getValue(), email);
+        doc.append(UserFieldName.NAME.getValue(), name);
+        doc.append(UserFieldName.ROLE.getValue(), role.getValue());
+        doc.append(UserFieldName.CREATE_DATE.getValue(), crtDate);
         return doc;
     }
 

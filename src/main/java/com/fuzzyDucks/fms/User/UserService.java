@@ -1,5 +1,6 @@
 package com.fuzzyDucks.fms.User;
 
+import com.fuzzyDucks.fms.User.enums.UserFieldName;
 import org.bson.Document;
 
 import com.fuzzyDucks.fms.Database.MongoConnector;
@@ -15,7 +16,7 @@ public class UserService {
     }
 
     public static void addUser(UserSchema user) {
-        if (users.find(new Document("username", user.getUsername())).first() != null)
+        if (users.find(new Document(UserFieldName.USER_NAME.getValue(), user.getUsername())).first() != null)
             throw new IllegalArgumentException("User already exists");
         users.insertOne(user.toDocument());
     }
@@ -29,7 +30,7 @@ public class UserService {
     }
 
     public static Document getUser(String username) {
-        Document doc = users.find(new Document("username", username)).first();
+        Document doc = users.find(new Document(UserFieldName.USER_NAME.getValue(), username)).first();
         if (doc == null)
             throw new IllegalArgumentException("User not found");
         return doc;
