@@ -31,6 +31,15 @@ public class JWTService {
         }
     }
 
+    public static String decodeObject(String token, String key) {
+        try {
+            return JWT.decode(token).getClaim(key).asString();
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+        return null;
+    }
+
     public String getToken() {
         return token;
     }

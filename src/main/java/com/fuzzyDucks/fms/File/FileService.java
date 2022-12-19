@@ -8,23 +8,31 @@ import java.io.File;
 import java.io.IOException;
 
 public class FileService {
+
+    private static FileSchemaService fileSchemaService;
+    private static IOService ioService;
+
+    private FileService() {
+        fileSchemaService = new FileSchemaService();
+        ioService = new IOService();
+    }
+
     public static void importFile(FileSchema file, File selectedFile, File newFile) throws IOException {
-        FileSchemaService.addFile(file);
-        IOService.copyFile(selectedFile, newFile);
+        fileSchemaService.addFile(file);
+        ioService.copyFile(selectedFile, newFile);
     }
 
     public static void deleteFile(String name, String type) throws IOException {
-        String path = FileSchemaService.getFilePath(name, type);
+        String path = fileSchemaService.getFilePath(name, type);
         String folderPath = path.substring(0, path.lastIndexOf(PathInfo.PATH_SEPARATOR.getPath()));
-        IOService.deleteFile(new File(folderPath));
-        FileSchemaService.removeFile(name, type);
+        ioService.deleteFile(new File(folderPath));
+        fileSchemaService.removeFile(name, type);
     }
 
-
     public static void exportFile(String name, String type) throws IOException {
-        File selectedFile = new File(FileSchemaService.getFilePath(name, type));
+        File selectedFile = new File(fileSchemaService.getFilePath(name, type));
         File downloadFile = new File(PathInfo.FULL_DOWNLOAD_PATH.getPath());
-        IOService.copyFileTo(selectedFile, downloadFile);
+        ioService.copyFileTo(selectedFile, downloadFile);
     }
     
     public static void updateFileNameIfExist(@NotNull FileSchema file, String name, String newName) {
@@ -53,6 +61,5 @@ public class FileService {
         }
 
     }
-
 
 }

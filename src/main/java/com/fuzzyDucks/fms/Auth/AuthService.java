@@ -3,11 +3,13 @@ package com.fuzzyDucks.fms.Auth;
 import org.bson.Document;
 
 import com.fuzzyDucks.fms.Auth.JWT.JWTService;
+import com.fuzzyDucks.fms.Cache.Cache;
 import com.fuzzyDucks.fms.User.UserService;
 import com.fuzzyDucks.fms.User.UserUtils;
 
 public class AuthService {
 
+    private static Cache cache = Cache.getInstance();
     private static JWTService jwtService = new JWTService();
 
     private AuthService() {
@@ -28,6 +30,7 @@ public class AuthService {
 
     public static String login(String username, String password) {
         if (validateUser(username, password)) {
+            cache.put("token", getToken(UserService.getUser(username)));
             return getToken(UserService.getUser(username));
         }
         throw new IllegalArgumentException("Invalid username or password 2");
