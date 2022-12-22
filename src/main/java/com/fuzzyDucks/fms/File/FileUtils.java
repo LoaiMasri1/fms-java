@@ -23,4 +23,17 @@ public class FileUtils {
         }
         return true;
     }
+    
+      public static int countFoldersInDirectory(String directoryPath) {
+        int count = 0;
+        File directory = new File(directoryPath);
+        File[] files = directory.listFiles();
+        assert files != null;
+        for (File file : files) {
+            if (file.isDirectory()) {
+                count++;
+            }
+        }
+        return count;
+    }
 }
