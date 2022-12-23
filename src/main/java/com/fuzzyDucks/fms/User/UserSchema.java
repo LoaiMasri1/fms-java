@@ -1,20 +1,17 @@
 package com.fuzzyDucks.fms.User;
-
 import java.util.Date;
-
 import com.fuzzyDucks.fms.User.enums.UserFieldName;
 import org.bson.Document;
 
 import com.fuzzyDucks.fms.User.enums.UserRole;
 
 public class UserSchema {
-    private String username;
-    private String password;
-    private String email;
-    private String name;
-    private Date crtDate;
-    private UserRole role;
-
+    private final String username;
+    private final String password;
+    private final String email;
+    private final String name;
+    private final Date crtDate;
+    private final UserRole role;
     public UserSchema(String username, String password, String email, String name, UserRole role) {
         this.username = username;
         this.password = UserUtils.hashPassword(password);

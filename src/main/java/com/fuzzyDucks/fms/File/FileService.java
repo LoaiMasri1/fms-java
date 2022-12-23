@@ -11,7 +11,6 @@ public class FileService {
 
     private static FileSchemaService fileSchemaService = new FileSchemaService();
     private static IOService ioService = new IOService();
-
     private FileService() {
         fileSchemaService = new FileSchemaService();
         ioService = new IOService();
