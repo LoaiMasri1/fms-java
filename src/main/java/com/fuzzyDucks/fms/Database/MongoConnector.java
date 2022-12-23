@@ -9,8 +9,8 @@ import com.mongodb.client.MongoDatabase;
 
 public class MongoConnector {
     private static MongoConnector instance = null;
-    private static MongoClientURI uri = new MongoClientURI(MongoConf.URI.getValue());
-    private static MongoClient client = new MongoClient(uri);
+    private static final MongoClientURI uri = new MongoClientURI(MongoConf.URI.getValue());
+    private static final MongoClient client = new MongoClient(uri);
     private static MongoDatabase db;
 
     private MongoConnector() {

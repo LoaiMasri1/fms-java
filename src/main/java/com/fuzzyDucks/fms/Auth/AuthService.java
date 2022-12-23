@@ -12,8 +12,8 @@ import com.fuzzyDucks.fms.User.UserUtils;
 
 public class AuthService {
 
-    private static Cache cache = Cache.getInstance();
-    private static JWTService jwtService = new JWTService();
+    private static final Cache cache = Cache.getInstance();
+    private static final JWTService jwtService = new JWTService();
     private static final ILogger logger= LoggingHandler.getInstance();
     private AuthService() {
     }

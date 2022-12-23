@@ -6,9 +6,9 @@ public enum MongoConf {
     USERS_COLLECTION("users"),
     FILES_COLLECTION("files");
 
-    private String value;
+    private final String value;
 
-    private MongoConf(String value) {
+     MongoConf(String value) {
         this.value = value;
     }
 

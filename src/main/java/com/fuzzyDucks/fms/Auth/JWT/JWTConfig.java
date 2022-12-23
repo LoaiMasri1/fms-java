@@ -6,7 +6,7 @@ public enum JWTConfig {
     SUBJECT("1234567890"),
     EXPIRATION_TIME(1000 * 60 * 60 * 24 * 7);
 
-    private String value;
+    private final String value;
 
     JWTConfig(String value) {
         this.value = value;

@@ -5,7 +5,7 @@ import java.util.logging.*;
 
 public class LoggingHandler implements ILogger {
     private static ILogger instance = null;
-    private static Logger logger = Logger.getLogger(LoggingHandler.class.getSimpleName());
+    private static final Logger logger = Logger.getLogger(LoggingHandler.class.getSimpleName());
 
     private LoggingHandler() {
         try {

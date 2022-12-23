@@ -1,18 +1,16 @@
 package com.fuzzyDucks.fms.User;
 
-import com.fuzzyDucks.fms.File.FileService;
 import com.fuzzyDucks.fms.Logger.ILogger;
 import com.fuzzyDucks.fms.Logger.LoggingHandler;
 import com.fuzzyDucks.fms.User.enums.UserFieldName;
 import org.bson.Document;
-
 import com.fuzzyDucks.fms.Database.MongoConnector;
 import com.fuzzyDucks.fms.Database.enums.MongoConf;
 import com.mongodb.client.MongoCollection;
 
 public class UserService {
 
-    private static MongoCollection<Document> users = MongoConnector.getInstance().getDatabase()
+    private static final MongoCollection<Document> users = MongoConnector.getInstance().getDatabase()
             .getCollection(MongoConf.USERS_COLLECTION.getValue());
     private static final ILogger logger = LoggingHandler.getInstance();
 

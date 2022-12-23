@@ -7,7 +7,7 @@ public enum PathInfo {
     DOWNLOAD_PATH("\\Documents\\File Management System"),
     FULL_DOWNLOAD_PATH(HOME_PATH.path + DOWNLOAD_PATH.path);
 
-    private String path;
+    private final String path;
 
     PathInfo(String path) {
         this.path = path;

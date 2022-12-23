@@ -1,8 +1,7 @@
 package com.fuzzyDucks.fms.File.FileSchema;
 
 import com.fuzzyDucks.fms.File.enums.FileFieldName;
-import com.fuzzyDucks.fms.Logger.ILogger;
-import com.fuzzyDucks.fms.Logger.LoggingHandler;
+
 import org.bson.Document;
 import java.io.File;
 import java.io.IOException;
@@ -15,14 +14,13 @@ import com.fuzzyDucks.fms.File.enums.PathInfo;
 public class FileSchema {
     private static final int BYTE_TO_BITS = 8;
     private static final int BITS_TO_KILOBITS = 1024;
-    private String name;
+    private final String name;
     private String path;
-    private String type;
-    private double size;
-    private ArrayList<VersionSchema> versions;
-    private Date crtDate;
-    private Date updDate;
-    final private static ILogger logger = LoggingHandler.getInstance();
+    private final String type;
+    private final double size;
+    private final ArrayList<VersionSchema> versions;
+    private final Date crtDate;
+    private final Date updDate;
     public FileSchema(File file) throws IOException {
         String fileName = file.getName();
         this.name = encodeName(fileName);
@@ -32,7 +30,6 @@ public class FileSchema {
         this.crtDate = new Date();
         this.updDate = new Date();
         this.versions = new ArrayList<>();
-        logger.logInfo("Creating new File successfully "+getClass().getName());
         FileService.importFile(this, file);
     }
 
@@ -45,7 +42,6 @@ public class FileSchema {
         document.append(FileFieldName.VERSIONS.getValue(), this.versions);
         document.append(FileFieldName.CREATE_DATE.getValue(), this.crtDate);
         document.append(FileFieldName.UPDATE_DATE.getValue(), this.updDate);
-        logger.logInfo("Convert FileSchema to document successfully "+getClass().getName());
         return document;
     }
 

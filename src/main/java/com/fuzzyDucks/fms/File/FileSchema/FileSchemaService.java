@@ -38,6 +38,7 @@ public class FileSchemaService {
     public void addNewVersion(FileSchema newVersion) {
         Bson find = findWithNameAndType(newVersion.getName(),newVersion.getType());
         Document tmp = files.find(find).first();
+        assert tmp != null;
         int length = tmp.get(FileFieldName.VERSIONS.getValue(), ArrayList.class).size();
         String versionPath = newVersionPath(newVersion,length);
         newVersion.setPath(versionPath);

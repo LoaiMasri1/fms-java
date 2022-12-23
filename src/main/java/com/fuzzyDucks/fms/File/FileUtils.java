@@ -16,8 +16,7 @@ public class FileUtils {
 
     public static String decodeValue(String encodedMessage) {
         byte[] decodedBytes = Base64.getDecoder().decode(encodedMessage);
-        String decodedString = new String(decodedBytes);
-        return decodedString;
+        return new String(decodedBytes);
     }
 
     public static boolean isEmpty(FindIterable<Document> docs) {
@@ -30,7 +29,7 @@ public class FileUtils {
     }
 
     public static ArrayList<Document> decodeData(FindIterable<Document> docs) {
-        ArrayList<Document> decodedDocs = new ArrayList<Document>();
+        ArrayList<Document> decodedDocs = new ArrayList<>();
         for (Document doc : docs) {
             decodedDocs
                     .add(new Document(FileFieldName.ID.getValue(), doc.getObjectId(FileFieldName.ID.getValue()))

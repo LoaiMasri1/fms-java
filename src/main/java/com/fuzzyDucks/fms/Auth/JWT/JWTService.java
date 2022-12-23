@@ -10,7 +10,6 @@ import com.fuzzyDucks.fms.User.enums.UserFieldName;
 import org.bson.Document;
 
 public class JWTService {
-    private Algorithm algorithm;
     private String token = "";
     private static final ILogger logger = LoggingHandler.getInstance();
     public JWTService() {
@@ -18,7 +17,7 @@ public class JWTService {
 
     public void signToken(Document user) {
         try {
-            algorithm = Algorithm.HMAC256(JWTConfig.SECRET.getValue());
+            Algorithm algorithm = Algorithm.HMAC256(JWTConfig.SECRET.getValue());
             token = JWT.create().withIssuer(JWTConfig.ISSUER.getValue())
                     .withClaim(UserFieldName.USER_NAME.getValue(), user.getString(UserFieldName.USER_NAME.getValue()))
                     .withClaim(UserFieldName.EMAIL.getValue(), user.getString(UserFieldName.EMAIL.getValue()))
