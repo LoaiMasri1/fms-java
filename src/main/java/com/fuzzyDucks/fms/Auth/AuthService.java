@@ -1,5 +1,6 @@
 package com.fuzzyDucks.fms.Auth;
 
+import com.fuzzyDucks.fms.User.enums.UserFieldName;
 import org.bson.Document;
 
 import com.fuzzyDucks.fms.Auth.JWT.JWTService;
@@ -22,7 +23,7 @@ public class AuthService {
 
     public static Boolean validateUser(String username, String password) {
         Document user = UserService.getUser(username);
-        if (user != null && UserUtils.checkPassword(password, user.getString("password"))) {
+        if (user != null && UserUtils.checkPassword(password, user.getString(UserFieldName.PASSWORD.getValue()))) {
             return true;
         }
         throw new IllegalArgumentException("Invalid username or password");

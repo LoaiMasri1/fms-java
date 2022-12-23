@@ -3,11 +3,14 @@ import com.fuzzyDucks.fms.Database.MongoConnector;
 import com.fuzzyDucks.fms.Database.enums.MongoConf;
 import com.fuzzyDucks.fms.File.FileUtils;
 import com.fuzzyDucks.fms.File.IO.IOService;
+import com.fuzzyDucks.fms.File.enums.ClassifySort;
+import com.fuzzyDucks.fms.File.enums.FileFieldName;
 import com.fuzzyDucks.fms.File.enums.SortType;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.Sorts;
+
 
 import java.io.File;
 import java.io.IOException;
@@ -50,11 +53,12 @@ public class FileSchemaService {
                 .find(findWithNameAndType(FileUtils.encodeValue(name), FileUtils.encodeValue(type)));
         if (findIterable == null)
             throw new IllegalArgumentException("file not found");
-        return FileUtils.decodeValue(findIterable.first().getString("path"));
+        return FileUtils.decodeValue(findIterable.first().getString(FileFieldName.PATH.getValue()));
     }
 
-    public static Bson findWithNameAndType(String name, String type) {
-        return Filters.and(Filters.eq("name", name), Filters.eq("type", type));
+
+    public Bson findWithNameAndType(String name, String type) {
+        return Filters.and(Filters.eq(FileFieldName.NAME.getValue(), name), Filters.eq(FileFieldName.TYPE.getValue(), type));
     }
 
     public static FindIterable<Document> getFiles() {
@@ -63,28 +67,38 @@ public class FileSchemaService {
         return tmp;
     }
 
-    public static FindIterable<Document> getBySizeGte(double size) {
-        return files.find(new Document("size", size)).filter(Filters.gte("size", size));
+
+
+    public static ArrayList<Document> getSizeBy(double size, ClassifySort type) {
+        if (type.isLeast())
+            return FileUtils.decodeData(files.find(new Document(FileFieldName.SIZE.getValue(), size))
+                    .filter(Filters.lte(FileFieldName.SIZE.getValue(), size)));
+        return FileUtils.decodeData(files.find(new Document(FileFieldName.SIZE.getValue(), size))
+                    .filter(Filters.gte(FileFieldName.SIZE.getValue(), size)));
+
     }
 
-    public static FindIterable<Document> getBySizeLte(double size) {
-        return files.find(new Document("size", size)).filter(Filters.lte("size", size));
+    public static ArrayList<Document> getEqualValue(String fieldName, String value) {
+        if (fieldName.equals(FileFieldName.PATH.getValue()))
+            throw new IllegalArgumentException("you can't access using Path Field");
+        if (fieldName.equals(FileFieldName.NAME.getValue()) || fieldName.equals(FileFieldName.TYPE.getValue()))
+            value = FileUtils.encodeValue(value);
+        return FileUtils.decodeData(files.find(new Document(fieldName, value)));
     }
 
-    public static FindIterable<Document> getEqualValue(String nameField, String value) {
-        return files.find(new Document(nameField, value));
+    public static ArrayList<Document> getSortedBy(String fieldName, SortType type) {
+        if (fieldName.equals(FileFieldName.PATH.getValue()))
+            throw new IllegalArgumentException("you can't access using Path Field");
+        if (type.isAscending())
+            return FileUtils.decodeData(getFiles().sort(Sorts.ascending(fieldName)));
+        return FileUtils.decodeData(getFiles().sort(Sorts.descending(fieldName)));
+
+
     }
 
-    public static FindIterable<Document> getSortedBy(String nameField, SortType type) {
-        if (type.isAscending()) {
-            return getFiles().sort(Sorts.ascending(nameField));
-        }
-        return getFiles().sort(Sorts.descending(nameField));
-    }
-
-    public static FindIterable<Document> getBetweenTwoDate(Date startDate, Date endDate) {
-        return files.find().filter(Filters.gte("crtDate", startDate))
-                .filter(Filters.lte("crtDate", endDate));
+    public static ArrayList<Document> getBetweenTwoDate(Date startDate, Date endDate) {
+        return FileUtils.decodeData(files.find().filter(Filters.gte(FileFieldName.CREATE_DATE.getValue(), startDate))
+                .filter(Filters.lte(FileFieldName.CREATE_DATE.getValue(), endDate)));
     }
 
     public static int getVersionCounter(FileSchema file){

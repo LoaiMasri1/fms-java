@@ -1,4 +1,6 @@
 package com.fuzzyDucks.fms.File.FileSchema;
+
+import com.fuzzyDucks.fms.File.enums.FileFieldName;
 import org.bson.Document;
 import java.io.File;
 import java.io.IOException;
@@ -39,14 +41,14 @@ public class FileSchema {
 
     public Document toDocument() {
         Document document = new Document();
-        document.append("name", this.name);
-        document.append("path", this.path);
-        document.append("type", this.type);
-        document.append("size", this.size);
+        document.append(FileFieldName.NAME.getValue(), this.name);
+        document.append(FileFieldName.PATH.getValue(), this.path);
+        document.append(FileFieldName.TYPE.getValue(), this.type);
+        document.append(FileFieldName.SIZE.getValue(), this.size);
         document.append("versions", this.versions);
         document.append("version", this.version);
-        document.append("crtDate", this.crtDate);
-        document.append("updDate", this.updDate);
+        document.append(FileFieldName.CREATE_DATE.getValue(), this.crtDate);
+        document.append(FileFieldName.UPDATE_DATE.getValue(), this.updDate);
         return document;
     }
 

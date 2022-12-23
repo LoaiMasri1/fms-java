@@ -9,8 +9,8 @@ import java.io.IOException;
 
 public class FileService {
 
-    private static FileSchemaService fileSchemaService;
-    private static IOService ioService;
+    private static FileSchemaService fileSchemaService = new FileSchemaService();
+    private static IOService ioService = new IOService();
 
     private FileService() {
         fileSchemaService = new FileSchemaService();
