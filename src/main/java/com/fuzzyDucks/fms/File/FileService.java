@@ -4,6 +4,9 @@ import com.fuzzyDucks.fms.File.FileSchema.FileSchema;
 import com.fuzzyDucks.fms.File.FileSchema.FileSchemaService;
 import com.fuzzyDucks.fms.File.IO.IOService;
 import com.fuzzyDucks.fms.File.enums.PathInfo;
+import com.fuzzyDucks.fms.Logger.ILogger;
+import com.fuzzyDucks.fms.Logger.LoggingHandler;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -11,7 +14,6 @@ public class FileService {
 
     private static FileSchemaService fileSchemaService = new FileSchemaService();
     private static IOService ioService = new IOService();
-
     private FileService() {
         fileSchemaService = new FileSchemaService();
         ioService = new IOService();

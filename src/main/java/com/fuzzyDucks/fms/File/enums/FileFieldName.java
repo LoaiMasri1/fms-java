@@ -6,6 +6,7 @@ public enum FileFieldName {
     TYPE("type"),
     SIZE("size"),
     PATH("path"),
+    VERSIONS("versions"),
     CREATE_DATE("crtDate"),
     UPDATE_DATE("updDate");
     final String value;
