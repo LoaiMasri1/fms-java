@@ -2,12 +2,8 @@ package com.fuzzyDucks.fms.File;
 
 import java.util.ArrayList;
 import java.util.Base64;
-
 import com.fuzzyDucks.fms.File.enums.FileFieldName;
-import com.mongodb.client.MongoCollection;
-import com.mongodb.client.model.Projections;
 import org.bson.Document;
-
 import com.mongodb.client.FindIterable;
 
 public class FileUtils {
@@ -28,20 +24,6 @@ public class FileUtils {
         }
         return true;
     }
-
-    
-      public static int countFoldersInDirectory(String directoryPath) {
-        int count = 0;
-        File directory = new File(directoryPath);
-        File[] files = directory.listFiles();
-        assert files != null;
-        for (File file : files) {
-            if (file.isDirectory()) {
-                count++;
-            }
-        }
-        return count;
-
 
     public static ArrayList<Document> decodeData(FindIterable<Document> docs) {
         ArrayList<Document> decodedDocs = new ArrayList<Document>();
