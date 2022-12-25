@@ -11,10 +11,8 @@ import com.fuzzyDucks.fms.Logger.LoggingHandler;
 import com.fuzzyDucks.fms.Logger.intf.ILogger;
 import com.fuzzyDucks.fms.Permissions.PermissionsHandler;
 import com.fuzzyDucks.fms.User.enums.UserRole;
-
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.AccessDeniedException;
 
 public class FileService {
     private static final FileSchemaService fileSchemaService = new FileSchemaService();

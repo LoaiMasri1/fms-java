@@ -9,9 +9,7 @@ import com.fuzzyDucks.fms.File.fileSchema.models.FileSchema;
 import com.fuzzyDucks.fms.File.utils.FileUtils;
 import com.fuzzyDucks.fms.File.enums.*;
 import com.fuzzyDucks.fms.Logger.*;
-
 import com.fuzzyDucks.fms.Logger.intf.ILogger;
-import com.fuzzyDucks.fms.Permissions.PermissionsHandler;
 import com.fuzzyDucks.fms.User.enums.UserRole;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;

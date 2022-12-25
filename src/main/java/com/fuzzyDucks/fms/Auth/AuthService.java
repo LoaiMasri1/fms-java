@@ -1,6 +1,7 @@
 package com.fuzzyDucks.fms.Auth;
 
 import com.fuzzyDucks.fms.Exceptions.InvalidDataException;
+import com.fuzzyDucks.fms.Exceptions.NullDataException;
 import com.fuzzyDucks.fms.Logger.intf.ILogger;
 import com.fuzzyDucks.fms.Logger.LoggingHandler;
 import com.fuzzyDucks.fms.User.enums.UserFieldName;
@@ -18,15 +19,15 @@ public class AuthService {
     private static final ILogger logger = LoggingHandler.getInstance();
     private static final UserService userService = new UserService();
 
-    private AuthService() {
+    public AuthService() {
     }
 
-    public static String getToken(Document user) {
+    public  String getToken(Document user) {
         jwtService.signToken(user);
         return jwtService.getToken();
     }
 
-    public static Boolean validateUser(String username, String password) {
+    public  Boolean validateUser(String username, String password) {
         Document user = userService.getUser(username);
         if (user != null && UserUtils.checkPassword(password, user.getString(UserFieldName.PASSWORD.getValue()))) {
             logger.logInfo("User: " + username + " validated successfully");
@@ -36,7 +37,7 @@ public class AuthService {
         throw new InvalidDataException("Invalid username or password");
     }
 
-    public static void login(String username, String password) {
+    public  void login(String username, String password) {
         if (validateUser(username, password)) {
             jwtService.signToken(userService.getUser(username));
             String token = jwtService.getToken();
@@ -49,9 +50,15 @@ public class AuthService {
         throw new InvalidDataException("Invalid username or password");
     }
 
-    public static void logout() {
-        cache.remove("token");
-        logger.logInfo("User logged out successfully");
+    public  void logout() {
+        if(cache.get("token")!=null){
+            cache.remove("token");
+            logger.logInfo("User logged out successfully");
+        }
+        else {
+            logger.logWarning("user not logged in");
+        throw new NullDataException("you Should be logged in");
+        }
     }
 
 }

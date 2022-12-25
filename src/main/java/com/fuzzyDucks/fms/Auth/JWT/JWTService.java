@@ -8,14 +8,11 @@ import com.fuzzyDucks.fms.Exceptions.DecodingException;
 import com.fuzzyDucks.fms.Logger.intf.ILogger;
 import com.fuzzyDucks.fms.Logger.LoggingHandler;
 import com.fuzzyDucks.fms.User.enums.UserFieldName;
-import com.fuzzyDucks.fms.User.services.UserService;
 import org.bson.Document;
 
 public class JWTService {
     private String token = "";
     private static final ILogger logger = LoggingHandler.getInstance();
-    private static final UserService userService = new UserService();
-
     public JWTService() {
     }
 
