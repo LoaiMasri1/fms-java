@@ -50,8 +50,8 @@ public class VersionService {
     private String newVersionPath(FileSchema newVersion, int length) {
         String type = fileUtils.decodeValue(newVersion.getType());
         String path = fileUtils.decodeValue(newVersion.getPath());
-        return path.substring(0, path.lastIndexOf("."))
-                + "(" + length + ")." + type;
+        return new StringBuilder().append(path.substring(0, path.lastIndexOf(".")))
+                .append("(").append(length).append(").").append(type).toString();
     }
 
 

@@ -1,11 +1,12 @@
 package com.fuzzyDucks.fms.File.fileSchema.models;
 import com.fuzzyDucks.fms.File.enums.FileFieldName;
 import com.fuzzyDucks.fms.File.File;
+import com.fuzzyDucks.fms.File.intf.FileService;
 import org.bson.Document;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
-import com.fuzzyDucks.fms.File.FileService;
+import com.fuzzyDucks.fms.File.impl.FileServiceImpl;
 import com.fuzzyDucks.fms.File.utils.FileUtils;
 import com.fuzzyDucks.fms.File.enums.PathInfo;
 
@@ -19,15 +20,16 @@ public class FileSchema {
     private final ArrayList<VersionSchema> versions;
     private final Date crtDate;
     private final Date updDate;
+    private FileService fileService = new FileServiceImpl();
 
     public FileSchema(java.io.File file) throws IOException, ClassNotFoundException {
         String fileName = file.getName();
-        this.file = new File(encodeName(fileName), fileUtils.encodeValue(newPath(fileName)), encodeType(fileName));
+        this.file = new File(encodeName(fileName),  encodeType(fileName), fileUtils.encodeValue(newPath(fileName)));
         this.size = (double) (file.length() * BYTE_TO_BITS) / BITS_TO_KILOBITS; // In kilobits
         this.crtDate = new Date();
         this.updDate = new Date();
         this.versions = new ArrayList<>();
-        FileService.importFile(this, file);
+        fileService.importFile(this, file);
     }
 
     public Document toDocument() {
