@@ -1,6 +1,7 @@
-package com.fuzzyDucks.fms.Auth.impl;
+package com.fuzzyDucks.fms.Auth.AuthService.impl;
 
-import com.fuzzyDucks.fms.Auth.intf.AuthService;
+import com.fuzzyDucks.fms.Auth.AuthService.enums.AuthConstant;
+import com.fuzzyDucks.fms.Auth.AuthService.intf.AuthService;
 import com.fuzzyDucks.fms.Exceptions.InvalidDataException;
 import com.fuzzyDucks.fms.Logger.intf.ILogger;
 import com.fuzzyDucks.fms.Logger.LoggingHandler;
@@ -40,8 +41,8 @@ public class AuthServiceImpl implements AuthService {
         if (validateUser(username, password)) {
             jwtService.signToken(userService.getUser(username));
             String token = jwtService.getToken();
-            cache.put("token", token);
-            cache.put("role", JWTService.decodeObject(token, "role"));
+            cache.put(AuthConstant.USER_TOKEN.getValue(), token);
+            cache.put(AuthConstant.USER_ROLE.getValue(), JWTService.decodeObject(token, "role"));
             logger.logInfo("User: " + username + " logged in successfully");
             return;
         }
@@ -51,7 +52,7 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public void logout() {
-        cache.remove("token");
+        cache.remove(AuthConstant.USER_TOKEN.getValue());
         logger.logInfo("User logged out successfully");
     }
 

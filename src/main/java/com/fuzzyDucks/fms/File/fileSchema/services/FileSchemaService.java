@@ -6,6 +6,7 @@ import com.fuzzyDucks.fms.Database.intf.IMongoDatabase;
 import com.fuzzyDucks.fms.Exceptions.AccessibleParameterException;
 import com.fuzzyDucks.fms.Exceptions.PermissionException;
 import com.fuzzyDucks.fms.File.fileSchema.models.FileSchema;
+import com.fuzzyDucks.fms.File.impl.FileActions;
 import com.fuzzyDucks.fms.File.utils.FileUtils;
 import com.fuzzyDucks.fms.File.enums.*;
 import com.fuzzyDucks.fms.Logger.*;
@@ -15,12 +16,9 @@ import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.Sorts;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Objects;
-
-
 import org.bson.Document;
 import org.bson.conversions.Bson;
 
@@ -35,10 +33,11 @@ public class FileSchemaService {
     final static ILogger logger = LoggingHandler.getInstance();
     final static FileUtils fileUtils = new FileUtils();
     final private static VersionService versionService = new VersionService();
+    final private static int FIRST_VERSION_NUMBER = 0;
 
     public void addFile(FileSchema file) throws PermissionException {
         if (files.find(findWithNameAndType(file.getName(), file.getType())).first() != null) {
-            if (permissionsHandler.hasPermission(UserRole.fromValue(role), "overwrite")) {
+            if (permissionsHandler.hasPermission(UserRole.fromValue(role), FileActions.OVERWRITE.getValue())) {
                 logger.logInfo("Updating File Version: " + file.getName() + "." + file.getType());
                 versionService.addNewVersion(file);
             } else {
@@ -47,7 +46,7 @@ public class FileSchemaService {
         } else {
             files.insertOne(file.toDocument());
             logger.logInfo("Adding file: " + file.getName() + "." + file.getType());
-            versionService.updateVersions(0, file);
+            versionService.updateVersions(FIRST_VERSION_NUMBER, file);
         }
     }
 

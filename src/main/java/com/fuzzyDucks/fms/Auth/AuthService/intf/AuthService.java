@@ -1,4 +1,4 @@
-package com.fuzzyDucks.fms.Auth.intf;
+package com.fuzzyDucks.fms.Auth.AuthService.intf;
 
 import org.bson.Document;
 
