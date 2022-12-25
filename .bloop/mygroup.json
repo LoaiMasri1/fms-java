@@ -1,0 +1,292 @@
+{
+    "version": "1.4.0",
+    "project": {
+        "name": "mygroup",
+        "directory": "E:\\fms-java",
+        "workspaceDir": "E:\\fms-java",
+        "sources": [
+            "E:\\fms-java\\src\\main\\java"
+        ],
+        "dependencies": [
+            
+        ],
+        "classpath": [
+            "E:\\fms-java\\target\\classes",
+            "C:\\Users\\Loai Masri\\.m2\\repository\\org\\mongodb\\mongo-java-driver\\3.12.7\\mongo-java-driver-3.12.7.jar",
+            "C:\\Users\\Loai Masri\\.m2\\repository\\com\\auth0\\java-jwt\\3.3.0\\java-jwt-3.3.0.jar",
+            "C:\\Users\\Loai Masri\\.m2\\repository\\com\\fasterxml\\jackson\\core\\jackson-databind\\2.9.2\\jackson-databind-2.9.2.jar",
+            "C:\\Users\\Loai Masri\\.m2\\repository\\com\\fasterxml\\jackson\\core\\jackson-annotations\\2.9.0\\jackson-annotations-2.9.0.jar",
+            "C:\\Users\\Loai Masri\\.m2\\repository\\com\\fasterxml\\jackson\\core\\jackson-core\\2.9.2\\jackson-core-2.9.2.jar",
+            "C:\\Users\\Loai Masri\\.m2\\repository\\commons-codec\\commons-codec\\1.11\\commons-codec-1.11.jar",
+            "C:\\Users\\Loai Masri\\.m2\\repository\\at\\favre\\lib\\bcrypt\\0.9.0\\bcrypt-0.9.0.jar",
+            "C:\\Users\\Loai Masri\\.m2\\repository\\at\\favre\\lib\\bytes\\1.3.0\\bytes-1.3.0.jar",
+            "C:\\Users\\Loai Masri\\.m2\\repository\\commons-io\\commons-io\\2.5\\commons-io-2.5.jar"
+        ],
+        "out": "E:\\fms-java\\target",
+        "classesDir": "E:\\fms-java\\target\\classes",
+        "resources": [
+            "E:\\fms-java\\src\\main\\resources"
+        ],
+        "java": {
+            "options": [
+                "-g",
+                "-target",
+                "1.7",
+                "-source",
+                "1.7",
+                "-encoding",
+                "UTF-8"
+            ]
+        },
+        "test": {
+            "frameworks": [
+                {
+                    "names": [
+                        "com.novocode.junit.JUnitFramework"
+                    ]
+                },
+                {
+                    "names": [
+                        "org.scalatest.tools.Framework",
+                        "org.scalatest.tools.ScalaTestFramework"
+                    ]
+                },
+                {
+                    "names": [
+                        "org.scalacheck.ScalaCheckFramework"
+                    ]
+                },
+                {
+                    "names": [
+                        "org.specs.runner.SpecsFramework",
+                        "org.specs2.runner.Specs2Framework",
+                        "org.specs2.runner.SpecsFramework"
+                    ]
+                },
+                {
+                    "names": [
+                        "utest.runner.Framework"
+                    ]
+                },
+                {
+                    "names": [
+                        "munit.Framework"
+                    ]
+                }
+            ],
+            "options": {
+                "excludes": [
+                    
+                ],
+                "arguments": [
+                    {
+                        "args": [
+                            "-v",
+                            "-a"
+                        ],
+                        "framework": {
+                            "names": [
+                                "com.novocode.junit.JUnitFramework"
+                            ]
+                        }
+                    }
+                ]
+            }
+        },
+        "platform": {
+            "name": "jvm",
+            "config": {
+                "home": "C:\\Program Files\\Java\\jdk-11.0.16",
+                "options": [
+                    
+                ]
+            },
+            "mainClass": [
+                
+            ]
+        },
+        "resolution": {
+            "modules": [
+                {
+                    "organization": "com.fasterxml.jackson.core",
+                    "name": "jackson-databind",
+                    "version": "2.9.2",
+                    "artifacts": [
+                        {
+                            "name": "jackson-databind",
+                            "path": "C:\\Users\\Loai Masri\\.m2\\repository\\com\\fasterxml\\jackson\\core\\jackson-databind\\2.9.2\\jackson-databind-2.9.2.jar"
+                        },
+                        {
+                            "name": "jackson-databind",
+                            "classifier": "sources",
+                            "path": "C:\\Users\\Loai Masri\\.m2\\repository\\com\\fasterxml\\jackson\\core\\jackson-databind\\2.9.2\\jackson-databind-2.9.2-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization": "org.mongodb",
+                    "name": "mongo-java-driver",
+                    "version": "3.12.7",
+                    "artifacts": [
+                        {
+                            "name": "mongo-java-driver",
+                            "path": "C:\\Users\\Loai Masri\\.m2\\repository\\org\\mongodb\\mongo-java-driver\\3.12.7\\mongo-java-driver-3.12.7.jar"
+                        },
+                        {
+                            "name": "mongo-java-driver",
+                            "classifier": "sources",
+                            "path": "C:\\Users\\Loai Masri\\.m2\\repository\\org\\mongodb\\mongo-java-driver\\3.12.7\\mongo-java-driver-3.12.7-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization": "org.hamcrest",
+                    "name": "hamcrest-core",
+                    "version": "1.3",
+                    "artifacts": [
+                        {
+                            "name": "hamcrest-core",
+                            "path": "C:\\Users\\Loai Masri\\.m2\\repository\\org\\hamcrest\\hamcrest-core\\1.3\\hamcrest-core-1.3.jar"
+                        },
+                        {
+                            "name": "hamcrest-core",
+                            "classifier": "sources",
+                            "path": "C:\\Users\\Loai Masri\\.m2\\repository\\org\\hamcrest\\hamcrest-core\\1.3\\hamcrest-core-1.3-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization": "com.fasterxml.jackson.core",
+                    "name": "jackson-annotations",
+                    "version": "2.9.0",
+                    "artifacts": [
+                        {
+                            "name": "jackson-annotations",
+                            "path": "C:\\Users\\Loai Masri\\.m2\\repository\\com\\fasterxml\\jackson\\core\\jackson-annotations\\2.9.0\\jackson-annotations-2.9.0.jar"
+                        },
+                        {
+                            "name": "jackson-annotations",
+                            "classifier": "sources",
+                            "path": "C:\\Users\\Loai Masri\\.m2\\repository\\com\\fasterxml\\jackson\\core\\jackson-annotations\\2.9.0\\jackson-annotations-2.9.0-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization": "commons-io",
+                    "name": "commons-io",
+                    "version": "2.5",
+                    "artifacts": [
+                        {
+                            "name": "commons-io",
+                            "path": "C:\\Users\\Loai Masri\\.m2\\repository\\commons-io\\commons-io\\2.5\\commons-io-2.5.jar"
+                        },
+                        {
+                            "name": "commons-io",
+                            "classifier": "sources",
+                            "path": "C:\\Users\\Loai Masri\\.m2\\repository\\commons-io\\commons-io\\2.5\\commons-io-2.5-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization": "at.favre.lib",
+                    "name": "bytes",
+                    "version": "1.3.0",
+                    "artifacts": [
+                        {
+                            "name": "bytes",
+                            "path": "C:\\Users\\Loai Masri\\.m2\\repository\\at\\favre\\lib\\bytes\\1.3.0\\bytes-1.3.0.jar"
+                        },
+                        {
+                            "name": "bytes",
+                            "classifier": "sources",
+                            "path": "C:\\Users\\Loai Masri\\.m2\\repository\\at\\favre\\lib\\bytes\\1.3.0\\bytes-1.3.0-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization": "com.fasterxml.jackson.core",
+                    "name": "jackson-core",
+                    "version": "2.9.2",
+                    "artifacts": [
+                        {
+                            "name": "jackson-core",
+                            "path": "C:\\Users\\Loai Masri\\.m2\\repository\\com\\fasterxml\\jackson\\core\\jackson-core\\2.9.2\\jackson-core-2.9.2.jar"
+                        },
+                        {
+                            "name": "jackson-core",
+                            "classifier": "sources",
+                            "path": "C:\\Users\\Loai Masri\\.m2\\repository\\com\\fasterxml\\jackson\\core\\jackson-core\\2.9.2\\jackson-core-2.9.2-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization": "commons-codec",
+                    "name": "commons-codec",
+                    "version": "1.11",
+                    "artifacts": [
+                        {
+                            "name": "commons-codec",
+                            "path": "C:\\Users\\Loai Masri\\.m2\\repository\\commons-codec\\commons-codec\\1.11\\commons-codec-1.11.jar"
+                        },
+                        {
+                            "name": "commons-codec",
+                            "classifier": "sources",
+                            "path": "C:\\Users\\Loai Masri\\.m2\\repository\\commons-codec\\commons-codec\\1.11\\commons-codec-1.11-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization": "at.favre.lib",
+                    "name": "bcrypt",
+                    "version": "0.9.0",
+                    "artifacts": [
+                        {
+                            "name": "bcrypt",
+                            "path": "C:\\Users\\Loai Masri\\.m2\\repository\\at\\favre\\lib\\bcrypt\\0.9.0\\bcrypt-0.9.0.jar"
+                        },
+                        {
+                            "name": "bcrypt",
+                            "classifier": "sources",
+                            "path": "C:\\Users\\Loai Masri\\.m2\\repository\\at\\favre\\lib\\bcrypt\\0.9.0\\bcrypt-0.9.0-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization": "com.auth0",
+                    "name": "java-jwt",
+                    "version": "3.3.0",
+                    "artifacts": [
+                        {
+                            "name": "java-jwt",
+                            "path": "C:\\Users\\Loai Masri\\.m2\\repository\\com\\auth0\\java-jwt\\3.3.0\\java-jwt-3.3.0.jar"
+                        },
+                        {
+                            "name": "java-jwt",
+                            "classifier": "sources",
+                            "path": "C:\\Users\\Loai Masri\\.m2\\repository\\com\\auth0\\java-jwt\\3.3.0\\java-jwt-3.3.0-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization": "junit",
+                    "name": "junit",
+                    "version": "4.11",
+                    "artifacts": [
+                        {
+                            "name": "junit",
+                            "path": "C:\\Users\\Loai Masri\\.m2\\repository\\junit\\junit\\4.11\\junit-4.11.jar"
+                        },
+                        {
+                            "name": "junit",
+                            "classifier": "sources",
+                            "path": "C:\\Users\\Loai Masri\\.m2\\repository\\junit\\junit\\4.11\\junit-4.11-sources.jar"
+                        }
+                    ]
+                }
+            ]
+        },
+        "tags": [
+            "library"
+        ]
+    }
+}
