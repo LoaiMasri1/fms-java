@@ -1,6 +1,6 @@
 package com.fuzzyDucks.fms.File.fileSchema.models;
-import com.fuzzyDucks.fms.File.enums.FileFieldName;
 import com.fuzzyDucks.fms.File.File;
+import com.fuzzyDucks.fms.File.enums.FileFieldName;
 import com.fuzzyDucks.fms.File.intf.FileService;
 import org.bson.Document;
 import java.io.IOException;
