@@ -1,6 +1,7 @@
 package com.fuzzyDucks.fms.Factories.impl;
 
 import com.fuzzyDucks.fms.Auth.AuthService;
+import com.fuzzyDucks.fms.Auth.AuthServiceImpl;
 import com.fuzzyDucks.fms.Exceptions.InvalidDataException;
 import com.fuzzyDucks.fms.Exceptions.NullDataException;
 import com.fuzzyDucks.fms.Factories.intf.IUserFactory;
@@ -8,7 +9,7 @@ import com.fuzzyDucks.fms.User.User;
 import com.fuzzyDucks.fms.User.models.UserSchema;
 
 public class UserFactory implements IUserFactory {
-    private final AuthService authService = new AuthService();
+    private final AuthService authService = new AuthServiceImpl();
 
     @Override
     public void doAction(String action, Object object) {

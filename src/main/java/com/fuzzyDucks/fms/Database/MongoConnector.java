@@ -11,12 +11,9 @@ import com.mongodb.client.MongoDatabase;
 public class MongoConnector implements IMongoDatabase {
     private static MongoConnector instance = null;
     private static final MongoClientURI uri = new MongoClientURI(MongoConf.URI.getValue());
-
     private static MongoClient client = null;
-
     private static final ILogger logger = LoggingHandler.getInstance();
     public static MongoDatabase db;
-
     private MongoConnector() {
         connect();
     }
