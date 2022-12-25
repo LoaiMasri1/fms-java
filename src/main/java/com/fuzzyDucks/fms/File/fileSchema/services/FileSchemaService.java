@@ -24,8 +24,8 @@ import java.util.Objects;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 
-import static com.fuzzyDucks.fms.File.FileService.permissionsHandler;
-import static com.fuzzyDucks.fms.File.FileService.role;
+import static com.fuzzyDucks.fms.File.impl.FileServiceImpl.permissionsHandler;
+import static com.fuzzyDucks.fms.File.impl.FileServiceImpl.role;
 
 public class FileSchemaService {
 

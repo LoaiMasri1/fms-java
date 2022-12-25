@@ -1,7 +1,7 @@
 package com.fuzzyDucks.fms.Factories.impl;
 
-import com.fuzzyDucks.fms.Auth.AuthService;
-import com.fuzzyDucks.fms.Auth.AuthServiceImpl;
+import com.fuzzyDucks.fms.Auth.intf.AuthService;
+import com.fuzzyDucks.fms.Auth.impl.AuthServiceImpl;
 import com.fuzzyDucks.fms.Exceptions.InvalidDataException;
 import com.fuzzyDucks.fms.Exceptions.NullDataException;
 import com.fuzzyDucks.fms.Factories.intf.IUserFactory;

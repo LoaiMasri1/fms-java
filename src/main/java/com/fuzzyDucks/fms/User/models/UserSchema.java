@@ -3,7 +3,7 @@ import java.util.Date;
 
 import com.fuzzyDucks.fms.User.User;
 import com.fuzzyDucks.fms.User.enums.UserFieldName;
-import com.fuzzyDucks.fms.User.services.UserService;
+import com.fuzzyDucks.fms.User.services.impl.UserServiceImpl;
 import org.bson.Document;
 import com.fuzzyDucks.fms.User.utils.UserUtils;
 import com.fuzzyDucks.fms.User.enums.UserRole;
@@ -14,7 +14,7 @@ public class UserSchema {
     private final Date crtDate;
     private final UserRole role;
 
-    private final static UserService userService = new UserService();
+    private final static UserServiceImpl userService = new UserServiceImpl();
     public UserSchema(User user) {
         this.user = user;
         this.crtDate = new Date();
