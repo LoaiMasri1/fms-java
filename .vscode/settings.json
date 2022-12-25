@@ -1,4 +1,7 @@
 {
   "java.configuration.updateBuildConfiguration": "interactive",
-  "cSpell.words": ["Bson"]
+  "cSpell.words": ["Bson"],
+  "files.watcherExclude": {
+    "**/target": true
+  }
 }

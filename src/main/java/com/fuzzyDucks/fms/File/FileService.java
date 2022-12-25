@@ -1,38 +1,75 @@
 package com.fuzzyDucks.fms.File;
 
-import com.fuzzyDucks.fms.File.FileSchema.FileSchema;
-import com.fuzzyDucks.fms.File.FileSchema.FileSchemaService;
-import com.fuzzyDucks.fms.File.IO.IOService;
+import com.fuzzyDucks.fms.Cache.Cache;
+import com.fuzzyDucks.fms.Exceptions.PermissionException;
+import com.fuzzyDucks.fms.File.fileSchema.models.FileSchema;
+import com.fuzzyDucks.fms.File.fileSchema.services.FileSchemaService;
+import com.fuzzyDucks.fms.File.fileSchema.services.IOService;
 import com.fuzzyDucks.fms.File.enums.PathInfo;
+import com.fuzzyDucks.fms.File.utils.FileUtils;
+import com.fuzzyDucks.fms.Logger.LoggingHandler;
+import com.fuzzyDucks.fms.Logger.intf.ILogger;
+import com.fuzzyDucks.fms.Permissions.PermissionsHandler;
+import com.fuzzyDucks.fms.User.enums.UserRole;
+
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.AccessDeniedException;
 
 public class FileService {
+    private static final FileSchemaService fileSchemaService = new FileSchemaService();
+    private static final IOService ioService = new IOService();
+    private static final Cache cache = Cache.getInstance();
+    private static final FileUtils fileUtils = new FileUtils();
+    public static final PermissionsHandler permissionsHandler = new PermissionsHandler();
+    private static final ILogger logger = LoggingHandler.getInstance();
+    private static final Object token = cache.get("token");
+    public static final int role = cache.get("role") == null ? UserRole.READER.getValue() : (int) cache.get("role");
 
-    private static FileSchemaService fileSchemaService = new FileSchemaService();
-    private static IOService ioService = new IOService();
+    private static void checkIfLoggedIn() throws ClassNotFoundException {
+        if (token == null) {
+            logger.logWarning("User is not logged in");
+            throw new ClassNotFoundException("Please login first");
+        }
+    }
+
     private FileService() {
-        fileSchemaService = new FileSchemaService();
-        ioService = new IOService();
     }
 
-    public static void importFile(FileSchema file, File selectedFile) throws IOException {
-        fileSchemaService.addFile(file);
-        File newFile = new File(FileUtils.decodeValue(file.getPath()));
-        ioService.copyFile(selectedFile, newFile);
+    public static void importFile(FileSchema file, File selectedFile) throws IOException, ClassNotFoundException {
+        checkIfLoggedIn();
+        if (permissionsHandler.hasPermission(UserRole.fromValue(role), "import")) {
+            fileSchemaService.addFile(file,selectedFile);
+            ioService.copyFile(selectedFile, new File(fileUtils.decodeValue(file.getPath())));
+            logger.logInfo("Importing file: " + file.getName() + "." + file.getType());
+        } else {
+            logger.logWarning("User does not have permission to import");
+            throw new PermissionException("You do not have permission to import files");
+        }
     }
 
-    public static void deleteFile(String name, String type) throws IOException {
-        String path = fileSchemaService.getFilePath(name, type);
-        String folderPath = path.substring(0, path.lastIndexOf(PathInfo.PATH_SEPARATOR.getPath()));
-        ioService.deleteFile(new File(folderPath));
-        fileSchemaService.removeFile(name, type);
+    public static void deleteFile(String name, String type) throws IOException, ClassNotFoundException {
+        checkIfLoggedIn();
+        if (permissionsHandler.hasPermission(UserRole.fromValue(role), "delete")) {
+            String path = fileSchemaService.getFilePath(name, type);
+            String folderPath = path.substring(0, path.lastIndexOf(PathInfo.PATH_SEPARATOR.getPath()));
+            ioService.deleteFile(new File(folderPath));
+            fileSchemaService.removeFile(name, type);
+            logger.logInfo("Deleting file: " + name + "." + type);
+        } else {
+            logger.logWarning("User does not have permission to delete");
+            throw new PermissionException("You do not have permission to delete files");
+        }
     }
 
-    public static void exportFile(String name, String type) throws IOException {
-        File selectedFile = new File(fileSchemaService.getFilePath(name, type));
-        File downloadFile = new File(PathInfo.FULL_DOWNLOAD_PATH.getPath());
-        ioService.copyFileTo(selectedFile, downloadFile);
+    public static void exportFile(String name, String type) throws IOException, ClassNotFoundException {
+        checkIfLoggedIn();
+        if (permissionsHandler.hasPermission(UserRole.fromValue(role), "export")) {
+            ioService.copyFileTo(new File(fileSchemaService.getFilePath(name, type)), new File(PathInfo.FULL_DOWNLOAD_PATH.getPath()));
+        } else {
+            logger.logWarning("User does not have permission to export");
+            throw new PermissionException("You do not have permission to export files");
+        }
     }
 
 }

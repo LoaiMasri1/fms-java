@@ -1,20 +1,23 @@
 package com.fuzzyDucks.fms.Auth;
 
-import com.fuzzyDucks.fms.Logger.ILogger;
+import com.fuzzyDucks.fms.Exceptions.InvalidDataException;
+import com.fuzzyDucks.fms.Logger.intf.ILogger;
 import com.fuzzyDucks.fms.Logger.LoggingHandler;
 import com.fuzzyDucks.fms.User.enums.UserFieldName;
 import org.bson.Document;
 
 import com.fuzzyDucks.fms.Auth.JWT.JWTService;
 import com.fuzzyDucks.fms.Cache.Cache;
-import com.fuzzyDucks.fms.User.UserService;
-import com.fuzzyDucks.fms.User.UserUtils;
+import com.fuzzyDucks.fms.User.services.UserService;
+import com.fuzzyDucks.fms.User.utils.UserUtils;
 
 public class AuthService {
 
     private static final Cache cache = Cache.getInstance();
     private static final JWTService jwtService = new JWTService();
-    private static final ILogger logger= LoggingHandler.getInstance();
+    private static final ILogger logger = LoggingHandler.getInstance();
+    private static final UserService userService = new UserService();
+
     private AuthService() {
     }
 
@@ -24,25 +27,31 @@ public class AuthService {
     }
 
     public static Boolean validateUser(String username, String password) {
-        Document user = UserService.getUser(username);
+        Document user = userService.getUser(username);
         if (user != null && UserUtils.checkPassword(password, user.getString(UserFieldName.PASSWORD.getValue()))) {
             logger.logInfo("User: " + username + " validated successfully");
             return true;
         }
         logger.logWarning("User: " + username + " failed to validate credentials");
-        throw new IllegalArgumentException("Invalid username or password");
+        throw new InvalidDataException("Invalid username or password");
     }
 
     public static void login(String username, String password) {
         if (validateUser(username, password)) {
-            jwtService.signToken(UserService.getUser(username));
+            jwtService.signToken(userService.getUser(username));
             String token = jwtService.getToken();
             cache.put("token", token);
+            cache.put("role", JWTService.decodeObject(token, "role"));
             logger.logInfo("User: " + username + " logged in successfully");
             return;
         }
         logger.logWarning("User: " + username + " failed to log in");
-        throw new IllegalArgumentException("Invalid username or password 2");
+        throw new InvalidDataException("Invalid username or password");
+    }
+
+    public static void logout() {
+        cache.remove("token");
+        logger.logInfo("User logged out successfully");
     }
 
 }

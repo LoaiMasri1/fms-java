@@ -4,14 +4,18 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import java.util.Date;
 
-import com.fuzzyDucks.fms.Logger.ILogger;
+import com.fuzzyDucks.fms.Exceptions.DecodingException;
+import com.fuzzyDucks.fms.Logger.intf.ILogger;
 import com.fuzzyDucks.fms.Logger.LoggingHandler;
 import com.fuzzyDucks.fms.User.enums.UserFieldName;
+import com.fuzzyDucks.fms.User.services.UserService;
 import org.bson.Document;
 
 public class JWTService {
     private String token = "";
     private static final ILogger logger = LoggingHandler.getInstance();
+    private static final UserService userService = new UserService();
+
     public JWTService() {
     }
 
@@ -35,15 +39,16 @@ public class JWTService {
         }
     }
 
-    public static String decodeObject(String token, String key) {
+    public static Object decodeObject(String token, String key) {
         try {
+            Object decodedObject = JWT.decode(token).getClaim(key).as(Object.class);
             logger.logInfo("Token decoded successfully for key: " + key);
-            return JWT.decode(token).getClaim(key).asString();
+            return decodedObject;
         } catch (Exception e) {
             logger.logWarning("Error decoding token for key: " + key);
             System.err.println(e.getMessage());
         }
-        return null;
+        throw new DecodingException("Error decoding token");
     }
 
     public String getToken() {
