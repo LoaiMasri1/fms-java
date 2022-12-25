@@ -1,14 +1,10 @@
 package com.fuzzyDucks.fms.File.fileSchema.models;
-
 import com.fuzzyDucks.fms.File.enums.FileFieldName;
-
+import com.fuzzyDucks.fms.File.File;
 import org.bson.Document;
-
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
-
 import com.fuzzyDucks.fms.File.FileService;
 import com.fuzzyDucks.fms.File.utils.FileUtils;
 import com.fuzzyDucks.fms.File.enums.PathInfo;
@@ -18,19 +14,15 @@ public class FileSchema {
     private static final int BITS_TO_KILOBITS = 1024;
 
     final static private FileUtils fileUtils = new FileUtils();
-    private final String name;
-    private String path;
-    private final String type;
+    final private File file;
     private final double size;
     private final ArrayList<VersionSchema> versions;
     private final Date crtDate;
     private final Date updDate;
 
-    public FileSchema(File file) throws IOException, ClassNotFoundException {
+    public FileSchema(java.io.File file) throws IOException, ClassNotFoundException {
         String fileName = file.getName();
-        this.name = encodeName(fileName);
-        this.path = fileUtils.encodeValue(newPath(fileName));
-        this.type = encodeType(fileName);
+        this.file = new File(encodeName(fileName), fileUtils.encodeValue(newPath(fileName)), encodeType(fileName));
         this.size = (double) (file.length() * BYTE_TO_BITS) / BITS_TO_KILOBITS; // In kilobits
         this.crtDate = new Date();
         this.updDate = new Date();
@@ -40,9 +32,9 @@ public class FileSchema {
 
     public Document toDocument() {
         Document document = new Document();
-        document.append(FileFieldName.NAME.getValue(), this.name);
-        document.append(FileFieldName.PATH.getValue(), this.path);
-        document.append(FileFieldName.TYPE.getValue(), this.type);
+        document.append(FileFieldName.NAME.getValue(), this.file.getName());
+        document.append(FileFieldName.PATH.getValue(), this.file.getPath());
+        document.append(FileFieldName.TYPE.getValue(), this.file.getType());
         document.append(FileFieldName.SIZE.getValue(), this.size);
         document.append(FileFieldName.VERSIONS.getValue(), this.versions);
         document.append(FileFieldName.CREATE_DATE.getValue(), this.crtDate);
@@ -70,15 +62,15 @@ public class FileSchema {
     }
 
     public void setPath(String path) {
-        this.path = fileUtils.encodeValue(path);
+        this.file.setPath(fileUtils.encodeValue(path));
     }
 
     public String getName() {
-        return name;
+        return file.getName();
     }
 
     public String getType() {
-        return type;
+        return file.getType();
     }
 
     public double getSize() {
@@ -86,6 +78,6 @@ public class FileSchema {
     }
 
     public String getPath() {
-        return path;
+        return file.getPath();
     }
 }
