@@ -20,7 +20,7 @@ import java.util.Date;
 
 
 public class VersionService {
-    public void addNewVersion(FileSchema newVersion) {
+    public synchronized void addNewVersion(FileSchema newVersion) {
         int length =getVersionCounter(newVersion);
         String versionPath = newVersionPath(newVersion, length);
         newVersion.setPath(versionPath);
@@ -29,20 +29,20 @@ public class VersionService {
         logger.logInfo("Added New Version successfully for: " + newVersion.getName() + "." + newVersion.getType());
     }
 
-    public void updateVersions(int length, FileSchema version) {
+    public synchronized void updateVersions(int length, FileSchema version) {
         files.updateOne(findWithNameAndType(version.getName(), version.getType()), new Document("$push",
                 new Document(FileFieldName.VERSIONS.getValue(),
                         new VersionSchema(length, version.getPath(), version.getSize()).toDocument())));
     }
 
-    private void updateFile(String name, String type, String path, double size) {
+    private synchronized void updateFile(String name, String type, String path, double size) {
         files.updateOne(findWithNameAndType(name, type),
                 Updates.combine(Updates.set(FileFieldName.PATH.getValue(), path),
                         Updates.set(FileFieldName.SIZE.getValue(), size),
                         Updates.set(FileFieldName.UPDATE_DATE.getValue(), new Date())));
     }
 
-    private void updateFile(FileSchema file) {
+    private synchronized void updateFile(FileSchema file) {
         updateFile(file.getName(), file.getType(), file.getPath(), file.getSize());
     }
 
@@ -54,7 +54,7 @@ public class VersionService {
     }
 
 
-    public void rollback(String name, String type, int version) {
+    public synchronized void rollback(String name, String type, int version) {
         FindIterable<Document> findIterable = files
                 .find(findWithNameAndType(fileUtils.encodeValue(name), fileUtils.encodeValue(type)));
         fileUtils.isEmpty(findIterable);

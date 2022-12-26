@@ -8,6 +8,7 @@ import com.fuzzyDucks.fms.Exceptions.InvalidDataException;
 import com.fuzzyDucks.fms.Exceptions.PermissionException;
 import com.fuzzyDucks.fms.File.fileSchema.models.FileSchema;
 
+import com.fuzzyDucks.fms.File.impl.FileActions;
 import com.fuzzyDucks.fms.File.impl.FileServiceImpl;
 import com.fuzzyDucks.fms.File.intf.FileService;
 import com.fuzzyDucks.fms.File.utils.FileUtils;
@@ -46,7 +47,7 @@ public class FileSchemaService {
 
     public void addFile(FileSchema file, File selectedFile) throws IOException, ClassNotFoundException {
         if (files.find(findWithNameAndType(file.getName(), file.getType())).first() != null) {
-            if (permissionsHandler.hasPermission(UserRole.fromValue(role), "overwrite")) {
+            if (permissionsHandler.hasPermission(UserRole.fromValue(role), FileActions.OVERWRITE.getValue())) {
                 updateFileNameIfExist(file, selectedFile);
                 logger.logInfo("Updating File Version: " + file.getName() + "." + file.getType());
             } else {
@@ -134,8 +135,8 @@ public class FileSchemaService {
 
     public static void addNewFile(FileSchema file, String newName, File selectedFile) throws IOException, ClassNotFoundException {
         try {
-            FileService fileService=new FileServiceImpl();
-            file.setName(newName);
+            FileService fileService = new FileServiceImpl();
+            file.setName(fileUtils.encodeValue(newName));
             String newPath = file.newPath(newName) + "." + fileUtils.decodeValue(file.getType());
             file.setPath(newPath);
             fileService.importFile(file, selectedFile);
@@ -143,6 +144,7 @@ public class FileSchemaService {
             System.out.println("Error occurred while renaming the file " + e.getMessage());
         }
     }
+
     public static void updateFileNameIfExist(FileSchema file, File selectedFile) throws IOException, ClassNotFoundException {
         int versionCounter = getVersionCounter(file);
         System.out.println("Do you want to save the new file as  " + fileUtils.decodeValue(file.getName()) + "V." + (versionCounter) + "?(1) or type a new name(2)");
