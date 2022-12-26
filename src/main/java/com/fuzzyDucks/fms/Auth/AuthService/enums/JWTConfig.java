@@ -1,4 +1,4 @@
-package com.fuzzyDucks.fms.Auth.JWT;
+package com.fuzzyDucks.fms.Auth.AuthService.enums;
 
 public enum JWTConfig {
     SECRET("secret"),

@@ -15,17 +15,15 @@ public class FileFactory implements IFileFactory {
     public void doAction(String action, Object object) throws IOException, ClassNotFoundException {
         File file = (File) object;
         action = action.toLowerCase();
-        switch (action) {
-            case "import":
-                String path = file.getPath();
-                if (path == null || path.isEmpty()) {
-                    throw new NullDataException("Path is null or empty");
-                } else {
-                    new FileSchema(new java.io.File(file.getPath()));
-                }
-                break;
-            default:
-                throw new IllegalArgumentException("Invalid action");
+        if ("import".equals(action)) {
+            String path = file.getPath();
+            if (path == null || path.isEmpty()) {
+                throw new NullDataException("Path is null or empty");
+            } else {
+                new FileSchema(new java.io.File(file.getPath()));
+            }
+        } else {
+            throw new IllegalArgumentException("Invalid action");
         }
     }
     public void doAction(String action, String name,String type) throws IOException, ClassNotFoundException {

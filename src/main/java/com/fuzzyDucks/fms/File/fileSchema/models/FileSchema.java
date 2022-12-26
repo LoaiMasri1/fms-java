@@ -1,7 +1,7 @@
 package com.fuzzyDucks.fms.File.fileSchema.models;
+import com.fuzzyDucks.fms.File.intf.FileService;
 import com.fuzzyDucks.fms.File.File;
 import com.fuzzyDucks.fms.File.enums.FileFieldName;
-import com.fuzzyDucks.fms.File.intf.FileService;
 import org.bson.Document;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -20,7 +20,7 @@ public class FileSchema {
     private final ArrayList<VersionSchema> versions;
     private final Date crtDate;
     private final Date updDate;
-    private FileService fileService = new FileServiceImpl();
+    private final FileService fileService = new FileServiceImpl();
 
     public FileSchema(java.io.File file) throws IOException, ClassNotFoundException {
         String fileName = file.getName();

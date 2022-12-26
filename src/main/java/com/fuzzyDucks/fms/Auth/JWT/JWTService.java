@@ -4,6 +4,7 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import java.util.Date;
 
+import com.fuzzyDucks.fms.Auth.AuthService.enums.JWTConfig;
 import com.fuzzyDucks.fms.Exceptions.DecodingException;
 import com.fuzzyDucks.fms.Logger.intf.ILogger;
 import com.fuzzyDucks.fms.Logger.LoggingHandler;

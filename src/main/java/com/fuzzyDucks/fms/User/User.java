@@ -12,11 +12,6 @@ public class User {
         this.email = email;
         this.name = name;
     }
-
-    public User(String username, String password) {
-        this(username, password, null, null);
-    }
-
     public String getUsername() {
         return username;
     }
