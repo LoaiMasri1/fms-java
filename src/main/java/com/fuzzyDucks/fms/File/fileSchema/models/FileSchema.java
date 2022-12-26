@@ -54,7 +54,7 @@ public class FileSchema {
                 type.substring(type.lastIndexOf('.') + 1));
     }
 
-    private String newPath(String fileName) {
+    public String newPath(String fileName) {
         return new StringBuilder()
                 .append(PathInfo.LOCAL_PATH.getPath())
                 .append(fileName)
@@ -81,5 +81,9 @@ public class FileSchema {
 
     public String getPath() {
         return file.getPath();
+    }
+
+    public void setName(String name){
+        this.file.setName(name);
     }
 }

@@ -4,13 +4,14 @@ import com.fuzzyDucks.fms.Database.MongoConnector;
 import com.fuzzyDucks.fms.Database.enums.MongoConf;
 import com.fuzzyDucks.fms.Database.intf.IMongoDatabase;
 import com.fuzzyDucks.fms.Exceptions.AccessibleParameterException;
+import com.fuzzyDucks.fms.Exceptions.InvalidDataException;
 import com.fuzzyDucks.fms.Exceptions.PermissionException;
-import com.fuzzyDucks.fms.File.enums.ClassifySort;
-import com.fuzzyDucks.fms.File.enums.FileFieldName;
-import com.fuzzyDucks.fms.File.enums.SortType;
 import com.fuzzyDucks.fms.File.fileSchema.models.FileSchema;
-import com.fuzzyDucks.fms.File.impl.FileActions;
+
+import com.fuzzyDucks.fms.File.impl.FileServiceImpl;
+import com.fuzzyDucks.fms.File.intf.FileService;
 import com.fuzzyDucks.fms.File.utils.FileUtils;
+import com.fuzzyDucks.fms.File.enums.*;
 import com.fuzzyDucks.fms.Logger.*;
 import com.fuzzyDucks.fms.Logger.intf.ILogger;
 import com.fuzzyDucks.fms.User.enums.UserRole;
@@ -18,12 +19,18 @@ import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.Sorts;
+
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Objects;
+import java.util.Scanner;
+
 import org.bson.Document;
 import org.bson.conversions.Bson;
 
+import static com.fuzzyDucks.fms.File.fileSchema.services.VersionService.getVersionCounter;
 import static com.fuzzyDucks.fms.File.impl.FileServiceImpl.permissionsHandler;
 import static com.fuzzyDucks.fms.File.impl.FileServiceImpl.role;
 
@@ -37,11 +44,11 @@ public class FileSchemaService {
     final private static VersionService versionService = new VersionService();
     final private static int FIRST_VERSION_NUMBER = 0;
 
-    public void addFile(FileSchema file) throws PermissionException {
+    public void addFile(FileSchema file, File selectedFile) throws IOException, ClassNotFoundException {
         if (files.find(findWithNameAndType(file.getName(), file.getType())).first() != null) {
-            if (permissionsHandler.hasPermission(UserRole.fromValue(role), FileActions.OVERWRITE.getValue())) {
+            if (permissionsHandler.hasPermission(UserRole.fromValue(role), "overwrite")) {
+                updateFileNameIfExist(file, selectedFile);
                 logger.logInfo("Updating File Version: " + file.getName() + "." + file.getType());
-                versionService.addNewVersion(file);
             } else {
                 throw new PermissionException("User does not have permission to overwrite file");
             }
@@ -123,5 +130,34 @@ public class FileSchemaService {
         logger.logInfo("Getting files Between Two Date " + startDate + " to " + endDate);
         return fileUtils.decodeData(files.find().filter(Filters.gte(FileFieldName.CREATE_DATE.getValue(), startDate))
                 .filter(Filters.lte(FileFieldName.CREATE_DATE.getValue(), endDate)));
+    }
+
+    public static void addNewFile(FileSchema file, String newName, File selectedFile) throws IOException, ClassNotFoundException {
+        try {
+            FileService fileService=new FileServiceImpl();
+            file.setName(newName);
+            String newPath = file.newPath(newName) + "." + fileUtils.decodeValue(file.getType());
+            file.setPath(newPath);
+            fileService.importFile(file, selectedFile);
+        } catch (Exception e) {
+            System.out.println("Error occurred while renaming the file " + e.getMessage());
+        }
+    }
+    public static void updateFileNameIfExist(FileSchema file, File selectedFile) throws IOException, ClassNotFoundException {
+        int versionCounter = getVersionCounter(file);
+        System.out.println("Do you want to save the new file as  " + fileUtils.decodeValue(file.getName()) + "V." + (versionCounter) + "?(1) or type a new name(2)");
+        Scanner myObj = new Scanner(System.in);
+        System.out.println("1/2 ?");
+        String choice = myObj.nextLine();
+        if (Objects.equals(choice, "1")) {
+            versionService.addNewVersion(file);
+        } else if (Objects.equals(choice, "2")) {
+            System.out.println("Type the new name");
+            String newName = myObj.nextLine();
+            if (!Objects.equals(newName, "")) {
+                addNewFile(file, newName, selectedFile);
+            } else
+                throw new InvalidDataException("the name cant be empty");
+        } else throw new IOException("This input is unsupported");
     }
 }

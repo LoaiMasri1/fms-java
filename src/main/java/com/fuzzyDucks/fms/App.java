@@ -15,7 +15,7 @@ public class App {
             IUserFactory s = new UserFactory();
             s.doAction("login","admin","admin");
             IFileFactory d = new FileFactory();
-            d.doAction("import",new File("C:\\Users\\hp\\Downloads\\Hadoop Distributed File System (HDFS) (1).docx"));
+            d.doAction("import",new File("D:\\text.txt"));
             s.doAction("logout");
         }catch
         (Exception E){

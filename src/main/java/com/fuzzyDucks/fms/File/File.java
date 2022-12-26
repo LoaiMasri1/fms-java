@@ -1,4 +1,5 @@
 package com.fuzzyDucks.fms.File;
+
 public class File {
     String name;
     String type;
@@ -12,13 +13,15 @@ public class File {
 
     public File(String path) {
         java.io.File file = new java.io.File(path);
-        this.name =file.getName();
+        this.name = file.getName();
         this.type = path.substring(0, name.lastIndexOf("."));
         this.path = file.getPath();
     }
+
     public String getName() {
         return name;
     }
+
     public String getType() {
         return type;
     }
@@ -29,6 +32,10 @@ public class File {
 
     public void setPath(String path) {
         this.path = path;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
 }

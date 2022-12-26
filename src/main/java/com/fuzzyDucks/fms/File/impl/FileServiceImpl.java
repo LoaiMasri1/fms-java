@@ -38,7 +38,7 @@ public class FileServiceImpl implements FileService {
     public void importFile(FileSchema file, File selectedFile) throws IOException, ClassNotFoundException {
         checkIfLoggedIn();
         if (permissionsHandler.hasPermission(UserRole.fromValue(role), FileActions.IMPORT.getValue())) {
-            fileSchemaService.addFile(file);
+            fileSchemaService.addFile(file, selectedFile);
             ioService.copyFile(selectedFile, new File(fileUtils.decodeValue(file.getPath())));
             logger.logInfo("Importing file: " + file.getName() + "." + file.getType());
         } else {
