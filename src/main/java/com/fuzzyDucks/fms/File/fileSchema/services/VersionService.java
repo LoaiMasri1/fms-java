@@ -13,7 +13,7 @@ import java.util.Date;
 
 
 public class VersionService {
-    public void addNewVersion(FileSchema newVersion) {
+    public  synchronized void addNewVersion(FileSchema newVersion) {
         Bson find = FileSchemaService.findWithNameAndType(newVersion.getName(), newVersion.getType());
         Document tmp = FileSchemaService.files.find(find).first();
         assert tmp != null;
@@ -25,20 +25,20 @@ public class VersionService {
         FileSchemaService.logger.logInfo("Added New Version successfully for: " + newVersion.getName() + "." + newVersion.getType());
     }
 
-    public void updateVersions(int length, FileSchema version) {
+    public synchronized void updateVersions(int length, FileSchema version) {
         FileSchemaService.files.updateOne(FileSchemaService.findWithNameAndType(version.getName(), version.getType()), new Document("$push",
                 new Document(FileFieldName.VERSIONS.getValue(),
                         new VersionSchema(length, version.getPath(), version.getSize()).toDocument())));
     }
 
-    private void updateFile(String name, String type, String path, double size) {
+    private synchronized void updateFile(String name, String type, String path, double size) {
         FileSchemaService.files.updateOne(FileSchemaService.findWithNameAndType(name, type),
                 Updates.combine(Updates.set(FileFieldName.PATH.getValue(), path),
                         Updates.set(FileFieldName.SIZE.getValue(), size),
                         Updates.set(FileFieldName.UPDATE_DATE.getValue(), new Date())));
     }
 
-    private void updateFile(FileSchema file) {
+    private synchronized void updateFile(FileSchema file) {
         updateFile(file.getName(), file.getType(), file.getPath(), file.getSize());
     }
 
@@ -50,7 +50,7 @@ public class VersionService {
     }
 
 
-    public void rollback(String name, String type, int version) {
+    public synchronized void  rollback(String name, String type, int version) {
         FindIterable<Document> findIterable = FileSchemaService.files
                 .find(FileSchemaService.findWithNameAndType(FileSchemaService.fileUtils.encodeValue(name), FileSchemaService.fileUtils.encodeValue(type)));
         FileSchemaService.fileUtils.isEmpty(findIterable);
