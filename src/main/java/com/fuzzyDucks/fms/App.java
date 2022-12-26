@@ -11,10 +11,15 @@ import java.io.IOException;
 
 public class App {
     public static void main(String[] args) throws IOException, ClassNotFoundException {
-        IUserFactory s = new UserFactory();
-        s.doAction("login",new User("admin","admin"));
-        IFileFactory d = new FileFactory();
-        d.doAction("import",new File("C:\\Users\\hp\\Downloads\\Hadoop Distributed File System (HDFS) (1).docx"));
-        s.doAction("logout");
+        try{
+            IUserFactory s = new UserFactory();
+            s.doAction("login","admin","admin");
+            IFileFactory d = new FileFactory();
+            d.doAction("import",new File("C:\\Users\\hp\\Downloads\\Hadoop Distributed File System (HDFS) (1).docx"));
+            s.doAction("logout");
+        }catch
+        (Exception E){
+            System.out.println(E.getMessage());
+        }
     }
 }

@@ -9,7 +9,7 @@ import com.mongodb.MongoClientURI;
 import com.mongodb.client.MongoDatabase;
 
 public class MongoConnector implements IMongoDatabase {
-    private static MongoConnector instance = null;
+    private static volatile MongoConnector instance = null;
     private static final MongoClientURI uri = new MongoClientURI(MongoConf.URI.getValue());
     private static MongoClient client = null;
     private static final ILogger logger = LoggingHandler.getInstance();
@@ -21,9 +21,13 @@ public class MongoConnector implements IMongoDatabase {
 
     public static MongoConnector getInstance() {
         if (instance == null) {
-            instance = new MongoConnector();
+            synchronized (MongoConnector.class) {
+                if (instance == null) {
+                    instance = new MongoConnector();
+                    logger.logInfo("MongoConnector instance created");
+                }
+            }
         }
-        logger.logInfo("MongoConnector instance created");
         return instance;
     }
 

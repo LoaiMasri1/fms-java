@@ -6,6 +6,7 @@ import com.fuzzyDucks.fms.Exceptions.InvalidDataException;
 import com.fuzzyDucks.fms.Logger.intf.ILogger;
 import com.fuzzyDucks.fms.Logger.LoggingHandler;
 import com.fuzzyDucks.fms.User.enums.UserFieldName;
+import com.fuzzyDucks.fms.User.services.intf.UserService;
 import org.bson.Document;
 import com.fuzzyDucks.fms.Auth.JWT.JWTService;
 import com.fuzzyDucks.fms.Cache.Cache;
@@ -17,7 +18,7 @@ public class AuthServiceImpl implements AuthService {
     private static final Cache cache = Cache.getInstance();
     private static final JWTService jwtService = new JWTService();
     private static final ILogger logger = LoggingHandler.getInstance();
-    private static final UserServiceImpl userService = new UserServiceImpl();
+    private static final UserService userService = new UserServiceImpl();
 
     @Override
     public String getToken(Document user) {
